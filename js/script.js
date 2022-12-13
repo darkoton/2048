@@ -1,0 +1,323 @@
+//рандомное появление
+function randomInteger(row, col) {
+  // случайное число от min до (max+1)
+  let randRow = Math.floor(row.min + Math.random() * (row.max + 1 - row.min));
+  let randCol = Math.floor(col.min + Math.random() * (col.max + 1 - col.min));
+  if (document.querySelectorAll('.game__cell').length < 16 && !exists(randRow, randCol)) {
+    document.querySelector('.game__grid-cells').outerHTML = document.querySelector('.game__grid-cells').outerHTML + `
+    <div class="game__cell game__cell-2" row='${randRow}' col='${randCol}'>2</div>`
+    existsArr[existsArr.findIndex(element => element.col == randCol && element.row == randRow)].exists = true
+  }
+}
+
+//массивы для направлений 
+let cellsArrUp = []
+let cellsArrDown = []
+let cellsArrRight = []
+let cellsArrLeft = []
+
+function updateCells() {
+  for (let i = 0; i < document.querySelectorAll('.game__cell').length; i++) {
+    cellsArrUp[i] = document.querySelectorAll('.game__cell')[i]
+    cellsArrDown[i] = document.querySelectorAll('.game__cell')[i]
+    cellsArrRight[i] = document.querySelectorAll('.game__cell')[i]
+    cellsArrLeft[i] = document.querySelectorAll('.game__cell')[i]
+  }
+  cellsArrUp.sort((a, b) => {
+    return a.getAttribute('row') - b.getAttribute('row');
+  })
+  cellsArrDown.sort((a, b) => {
+    return b.getAttribute('row') - a.getAttribute('row');
+  })
+  cellsArrRight.sort((a, b) => {
+    return b.getAttribute('col') - a.getAttribute('col');
+  })
+  cellsArrLeft.sort((a, b) => {
+    return a.getAttribute('col') - b.getAttribute('col');
+  })
+}
+
+//слежение на существование элемента 
+let existsArr = [
+  {
+    row: 1,
+    col: 1,
+    exists: false
+  },
+  {
+    row: 1,
+    col: 2,
+    exists: false
+  },
+  {
+    row: 1,
+    col: 3,
+    exists: false
+  },
+  {
+    row: 1,
+    col: 4,
+    exists: false
+  },
+  {
+    row: 2,
+    col: 1,
+    exists: false
+  },
+  {
+    row: 2,
+    col: 2,
+    exists: false
+  },
+  {
+    row: 2,
+    col: 3,
+    exists: false
+  },
+  {
+    row: 2,
+    col: 4,
+    exists: false
+  },
+  {
+    row: 3,
+    col: 1,
+    exists: false
+  },
+  {
+    row: 3,
+    col: 2,
+    exists: false
+  },
+  {
+    row: 3,
+    col: 3,
+    exists: false
+  },
+  {
+    row: 3,
+    col: 4,
+    exists: false
+  },
+  {
+    row: 4,
+    col: 1,
+    exists: false
+  },
+  {
+    row: 4,
+    col: 2,
+    exists: false
+  },
+  {
+    row: 4,
+    col: 3,
+    exists: false
+  },
+  {
+    row: 4,
+    col: 4,
+    exists: false
+  },
+]
+
+//Задержка или Promise для последовательноси
+let delay = (ms = 0) => new Promise((resolve) => setTimeout(() => resolve(), ms))
+
+//exists существует ли ячейка
+function exists(row, col) {
+  console.log(row, col);
+  if (existsArr.find(element => element.col == col && element.row == row) == undefined) {
+    console.log('нет такой');
+  } else if (!existsArr.find(element => element.col == col && element.row == row).exists) {
+    console.log('пусто, можно идти');
+  } else if (existsArr.find(element => element.col == col && element.row == row).exists) {
+    console.log('есть, нельзя идти');
+    console.log(existsArr.find(element => element.col == col && element.row == row));
+  }
+
+
+  if (existsArr.find(element => element.col == col && element.row == row) == undefined) {
+    return undefined
+  }
+
+  return existsArr.find(element => element.col == col && element.row == row).exists
+}
+
+
+
+randomInteger({ min: 1, max: 4 }, { min: 1, max: 4 });
+updateCells()
+
+// randomInteger({ min: 2, max: 2 }, { min: 1, max: 1 });
+// randomInteger({ min: 4, max: 4 }, { min: 1, max: 1 });
+
+
+
+
+
+//Управление
+
+document.addEventListener("keyup", function (event) {
+  delay().then(() => {
+  }).then(() => {
+    if (event.code === 'ArrowUp') {
+      move('up')
+    }
+    if (event.code === 'ArrowDown') {
+      move('down')
+    }
+    if (event.code === 'ArrowRight') {
+      move('right')
+    }
+    if (event.code === 'ArrowLeft') {
+      move('left')
+    }
+  }).then(() => {
+    delay(250).then(() => {
+      if (event.code === 'ArrowUp' || event.code === 'ArrowDown' || event.code === 'ArrowRight' || event.code === 'ArrowLeft') {
+        randomInteger({ min: 1, max: 4 }, { min: 1, max: 4 });
+        updateCells()
+      }
+    })
+  })
+});
+
+//ориентирование когда нужно остановить движение ячейки
+// side - up, down, left, right
+function move(side) {
+  if (side == 'up') {
+    cellsArrUp.forEach(cell => {
+      for (let i = 0; i < 4; i++) {
+        //если не существует ячейки на ряду cell.getAttribute('row') - 1, в колонке cell.getAttribute('col')
+        if (exists(Number(cell.getAttribute('row')) - 1, cell.getAttribute('col')) == false) {
+          existsArr[existsArr.findIndex(element => element.row == cell.getAttribute('row') && element.col == cell.getAttribute('col'))].exists = false
+          cell.setAttribute('row', Number(cell.getAttribute('row')) - 1)
+          existsArr[existsArr.findIndex(element => element.row == cell.getAttribute('row') && element.col == cell.getAttribute('col'))].exists = true
+
+        }
+      }
+    })
+  }
+
+  if (side == 'down') {
+    cellsArrDown.forEach(cell => {
+      for (let i = 0; i < 4; i++) {
+        //если не существует ячейки на ряду cell.getAttribute('row') + 1, в колонке cell.getAttribute('col')
+        if (exists(Number(cell.getAttribute('row')) + 1, cell.getAttribute('col')) == false) {
+          existsArr[existsArr.findIndex(element => element.row == cell.getAttribute('row') && element.col == cell.getAttribute('col'))].exists = false
+          cell.setAttribute('row', Number(cell.getAttribute('row')) + 1)
+          existsArr[existsArr.findIndex(element => element.row == cell.getAttribute('row') && element.col == cell.getAttribute('col'))].exists = true
+
+        }
+      }
+    })
+  }
+
+  if (side == 'right') {
+    cellsArrRight.forEach(cell => {
+      for (let i = 0; i < 4; i++) {
+        //если не существует ячейки на ряду cell.getAttribute('row'), в колонке cell.getAttribute('col') + 1
+        if (exists(cell.getAttribute('col'), Number(cell.getAttribute('col')) + 1) == false) {
+          console.log(existsArr[existsArr.findIndex(element => element.row == cell.getAttribute('row') && element.col == cell.getAttribute('col'))]);
+          existsArr[existsArr.findIndex(element => element.row == cell.getAttribute('row') && element.col == cell.getAttribute('col'))].exists = false
+          cell.setAttribute('col', Number(cell.getAttribute('col')) + 1)
+          existsArr[existsArr.findIndex(element => element.row == cell.getAttribute('row') && element.col == cell.getAttribute('col'))].exists = true
+        }
+      }
+    })
+  }
+
+  if (side == 'left') {
+    cellsArrLeft.forEach(cell => {
+      for (let i = 0; i < 4; i++) {
+        //если не существует ячейки на ряду cell.getAttribute('row'), в колонке cell.getAttribute('col') - 1
+        if (exists(cell.getAttribute('row'), Number(cell.getAttribute('col')) - 1) == false) {
+          existsArr[existsArr.findIndex(element => element.row == cell.getAttribute('row') && element.col == cell.getAttribute('col'))].exists = false
+          cell.setAttribute('col', Number(cell.getAttribute('col')) - 1)
+          existsArr[existsArr.findIndex(element => element.row == cell.getAttribute('row') && element.col == cell.getAttribute('col'))].exists = true
+        }
+      }
+    })
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+if (side == 'down') {
+    cellsArrDown.forEach(cell => {
+      for (let i = 0; i < 4; i++) {
+        //если не существует ячейки на ряду cell.getAttribute('row') + 1, в колонке cell.getAttribute('col')
+        if (exists({ row: Number(cell.getAttribute('row')) + 1, col: cell.getAttribute('col') }, cell) == false) {
+          cell.setAttribute('row', Number(cell.getAttribute('row')) + 1)
+        }
+      }
+    })
+  }
+
+  if (side == 'right') {
+    cellsArrRight.forEach(cell => {
+      for (let i = 0; i < 4; i++) {
+        //если не существует ячейки на ряду cell.getAttribute('row'), в колонке cell.getAttribute('col') + 1
+        if (exists({ row: cell.getAttribute('col'), col: Number(cell.getAttribute('col')) + 1 }, cell) == false) {
+          console.log('yes');
+          cell.setAttribute('col', Number(cell.getAttribute('col')) + 1)
+        }
+      }
+    })
+  }
+
+  if (side == 'left') {
+    cellsArrLeft.forEach(cell => {
+      for (let i = 0; i < 4; i++) {
+        //если не существует ячейки на ряду cell.getAttribute('row'), в колонке cell.getAttribute('col') - 1
+        if (exists({ row: cell.getAttribute('row'), col: Number(cell.getAttribute('col')) - 1 }, cell) == false) {
+          cell.setAttribute('col', Number(cell.getAttribute('col')) - 1)
+        }
+      }
+    })
+  }
+*/
