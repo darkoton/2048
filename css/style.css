@@ -191,7 +191,6 @@ h1 {
 }
 
 .game__cell{
-  background: rgb(247, 250, 87);
   height: 100%;
   width: 100%;
   width: 125px;
@@ -232,4 +231,17 @@ h1 {
 }
 .game__cell[row = '0']{
   top: 0;
+}
+
+.game__cell-2{
+    background: rgb(247, 250, 87);
+}
+.game__cell-4{
+  background: rgb(250, 166, 87);
+}
+.game__cell-8{
+  background: rgb(250, 87, 87);
+}
+.game__cell-16{
+  background: rgb(87, 250, 196);
 }
