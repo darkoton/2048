@@ -107,7 +107,7 @@ h6 {
 /*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*/
 body {
-  background: rgb(194, 194, 163);
+  background: rgb(86, 114, 177);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -133,8 +133,8 @@ h1 {
   grid-template-columns: repeat(4, 125px);
   grid-template-rows: repeat(4, 125px);
   grid-gap: 15px;
-  border: solid 20px rgb(207, 177, 132);
-  background: rgb(207, 177, 132);
+  border: solid 15px rgb(132, 173, 207);
+  background: rgb(68, 111, 146);
   position: absolute;
 }
 
@@ -164,11 +164,16 @@ h1 {
 }
 
 .game{
-  border: solid 20px rgb(207, 177, 132);
+  border: solid 20px rgb(54, 68, 129);
+  border-radius: 10px;
+  background: rgb(54, 68, 129);
+
 }
 .game__body {
   position: relative;
   padding: 12px;
+  background: rgb(65, 108, 199);
+  border-radius: 10px;
 }
 .game__wrapper{
   width: 560px;
@@ -183,13 +188,14 @@ h1 {
   gap: 20px;
 }
 .game__cell-background{
-  background: rgb(208, 194, 145);
+  background: rgb(154, 145, 208);
   height: 100%;
   width: 100%;
   width: 125px;
   height: 125px;
+  border-radius: 5px;
+  position: relative;
 }
-
 .game__cell{
   height: 100%;
   width: 100%;
@@ -197,11 +203,12 @@ h1 {
   height: 125px;
   position: absolute;
   top: 0;
-  transition: all 0.3s ease 0s;
+  transition: all 0.11s ease 0s;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 50px;
+  border-radius: 5px;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 .game__cell[col = '1']{
@@ -234,14 +241,94 @@ h1 {
 }
 
 .game__cell-2{
-    background: rgb(247, 250, 87);
+    background: rgb(87, 198, 250);
 }
 .game__cell-4{
-  background: rgb(250, 166, 87);
+  background: rgb(52, 122, 214);
 }
 .game__cell-8{
-  background: rgb(250, 87, 87);
+  background: rgb(102 84 255 / 95%);
 }
 .game__cell-16{
-  background: rgb(87, 250, 196);
+  background: rgb(103 64 225);
+}
+
+
+
+
+
+.game__cell-background::before, .game__cell-background::after{
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.game__cell-background:nth-child(1)::before{
+  content: '1';
+  font-size: 40px;
+  position: absolute;
+  left: 50%;
+  top: -75px;
+  transform: translate(-50%, 0);
+}
+.game__cell-background:nth-child(1)::after{
+  content: '1';
+  font-size: 40px;
+  position: absolute;
+  left: -75px;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+.game__cell-background:nth-child(2)::before{
+  content: '2';
+  font-size: 40px;
+  position: absolute;
+  left: 50%;
+  top: -75px;
+  transform: translate(-50%, 0);
+}
+.game__cell-background:nth-child(3)::before{
+  content: '3';
+  font-size: 40px;
+  position: absolute;
+  left: 50%;
+  top: -75px;
+  transform: translate(-50%, 0);
+}
+.game__cell-background:nth-child(4)::before{
+  content: '4';
+  font-size: 40px;
+  position: absolute;
+  left: 50%;
+  top: -75px;
+  transform: translate(-50%, 0);
+}
+.game__cell-background:nth-child(5)::before{
+  content: '2';
+  font-size: 40px;
+  position: absolute;
+  left: -75px;
+  top: 50%;
+  transform: translate(0%, -50%);
+}
+.game__cell-background:nth-child(9)::before{
+  content: '3';
+  font-size: 40px;
+  position: absolute;
+  left: -75px;
+  top: 50%;
+  transform: translate(0%, -50%);
+}
+.game__cell-background:nth-child(9)::before{
+  content: '4';
+  font-size: 40px;
+  position: absolute;
+  left: -75px;
+  top: 50%;
+  transform: translate(0%, -50%);
+}
+.game__cell-background:nth-child(13)::before{
+  content: '5';
+  font-size: 40px;
+  position: absolute;
+  left: -75px;
+  top: 50%;
+  transform: translate(0%, -50%);
 }

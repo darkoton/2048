@@ -147,7 +147,10 @@ function exists(row, col) {
 
 
 randomInteger({ min: 1, max: 1 }, { min: 1, max: 1 });
-randomInteger({ min: 4, max: 4 }, { min: 1, max: 1 });
+randomInteger({ min: 2, max: 2 }, { min: 1, max: 1 });
+randomInteger({ min: 3, max: 3 }, { min: 4, max: 4 });
+randomInteger({ min: 4, max: 4 }, { min: 4, max: 4 });
+
 
 updateCells()
 
@@ -176,8 +179,8 @@ document.addEventListener("keyup", function (event) {
   }).then(() => {
     delay(250).then(() => {
       if (event.code === 'ArrowUp' || event.code === 'ArrowDown' || event.code === 'ArrowRight' || event.code === 'ArrowLeft') {
-        // randomInteger({ min: 1, max: 4 }, { min: 1, max: 4 });
-        // updateCells()
+        randomInteger({ min: 1, max: 4 }, { min: 1, max: 4 });
+        updateCells()
       }
     })
   })
@@ -185,6 +188,11 @@ document.addEventListener("keyup", function (event) {
 
 //ориентирование когда нужно остановить движение ячейки
 // side - up, down, left, right
+
+
+
+
+
 function move(side) {
   if (side == 'up') {
     cellsArrUp.forEach(cell => {
@@ -200,30 +208,39 @@ function move(side) {
             && element.getAttribute('col') == Number(cell.getAttribute('col'))).querySelector('span').textContent) {
 
 
+          console.log(cell, cellsArrUp.find(element => element.getAttribute('row') == Number(cell.getAttribute('row')) - 1
+            && element.getAttribute('col') == Number(cell.getAttribute('col'))));
+
+          //убираем существование нижней клетки
           existsArr[existsArr.findIndex(element => element.row == cell.getAttribute('row') && element.col == cell.getAttribute('col'))].exists = false
 
+          //соединяем нижнюю ячейку с верхней сдвигая нижнюю к ней
           cell.setAttribute('row', Number(cell.getAttribute('row')) - 1)
+          console.log(cell);
 
-          existsArr[existsArr.findIndex(element => element.row == cell.getAttribute('row') && element.col == cell.getAttribute('col'))].exists = true
+          //не нужно
+          // existsArr[existsArr.findIndex(element => element.row == cell.getAttribute('row') && element.col == cell.getAttribute('col'))].exists = true
 
-          delay(500).then(() => {
+          // delay(75).then(() => {
+          //   console.log(cellsArrUp);
+          cellsArrUp.find(element => element.getAttribute('row') == Number(cell.getAttribute('row'))
+            && element.getAttribute('col') == Number(cell.getAttribute('col'))).querySelector('span').textContent = Number(cell.querySelector('span').textContent) * 2
 
-            cellsArrUp.find(element => element.getAttribute('row') == Number(cell.getAttribute('row'))
-              && element.getAttribute('col') == Number(cell.getAttribute('col'))).querySelector('span').textContent = Number(cell.querySelector('span').textContent) * 2
+          cellsArrUp.find(element => element.getAttribute('row') == Number(cell.getAttribute('row'))
+            && element.getAttribute('col') == Number(cell.getAttribute('col'))).classList.remove(`game__cell-${Number(cell.querySelector('span').textContent)}`)
 
-            cellsArrUp.find(element => element.getAttribute('row') == Number(cell.getAttribute('row'))
-              && element.getAttribute('col') == Number(cell.getAttribute('col'))).classList.remove(`game__cell-${Number(cell.querySelector('span').textContent)}`)
+          cellsArrUp.find(element => element.getAttribute('row') == Number(cell.getAttribute('row'))
+            && element.getAttribute('col') == Number(cell.getAttribute('col'))).classList.add(`game__cell-${Number(cell.querySelector('span').textContent) * 2}`)
 
-            cellsArrUp.find(element => element.getAttribute('row') == Number(cell.getAttribute('row'))
-              && element.getAttribute('col') == Number(cell.getAttribute('col'))).classList.add(`game__cell-${Number(cell.querySelector('span').textContent) * 2}`)
+          delay(75).then(() => cell.remove())
+            .then(() => updateCells())
+          // }).then(() => {
 
-          }).then(() => {
+          //   cell.remove()
 
-            cell.remove()
-
-          }).then(() => {
-            updateCells()
-          })
+          // }).then(() => {
+          //   updateCells()
+          // })
 
         }
       }
@@ -281,75 +298,100 @@ function move(side) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
-if (side == 'down') {
-    cellsArrDown.forEach(cell => {
-      for (let i = 0; i < 4; i++) {
-        //если не существует ячейки на ряду cell.getAttribute('row') + 1, в колонке cell.getAttribute('col')
-        if (exists({ row: Number(cell.getAttribute('row')) + 1, col: cell.getAttribute('col') }, cell) == false) {
-          cell.setAttribute('row', Number(cell.getAttribute('row')) + 1)
-        }
-      }
-    })
-  }
+function move(side) {
+  delay().then(() => {
+    if (side == 'up') {
+      cellsArrUp.forEach(cell => {
+        for (let i = 0; i < 4; i++) {
+          //если не существует ячейки на ряду cell.getAttribute('row') - 1, в колонке cell.getAttribute('col')
+          if (exists(Number(cell.getAttribute('row')) - 1, cell.getAttribute('col')) == false) {
+            existsArr[existsArr.findIndex(element => element.row == cell.getAttribute('row') && element.col == cell.getAttribute('col'))].exists = false
+            cell.setAttribute('row', Number(cell.getAttribute('row')) - 1)
+            existsArr[existsArr.findIndex(element => element.row == cell.getAttribute('row') && element.col == cell.getAttribute('col'))].exists = true
+          } else if (exists(Number(cell.getAttribute('row')) - 1, cell.getAttribute('col')) == true &&
+            cell.querySelector('span').textContent ==
+            cellsArrUp.find(element => element.getAttribute('row') == Number(cell.getAttribute('row')) - 1
+              && element.getAttribute('col') == Number(cell.getAttribute('col'))).querySelector('span').textContent) {
 
-  if (side == 'right') {
-    cellsArrRight.forEach(cell => {
-      for (let i = 0; i < 4; i++) {
-        //если не существует ячейки на ряду cell.getAttribute('row'), в колонке cell.getAttribute('col') + 1
-        if (exists({ row: cell.getAttribute('col'), col: Number(cell.getAttribute('col')) + 1 }, cell) == false) {
-          console.log('yes');
-          cell.setAttribute('col', Number(cell.getAttribute('col')) + 1)
-        }
-      }
-    })
-  }
 
-  if (side == 'left') {
-    cellsArrLeft.forEach(cell => {
-      for (let i = 0; i < 4; i++) {
-        //если не существует ячейки на ряду cell.getAttribute('row'), в колонке cell.getAttribute('col') - 1
-        if (exists({ row: cell.getAttribute('row'), col: Number(cell.getAttribute('col')) - 1 }, cell) == false) {
-          cell.setAttribute('col', Number(cell.getAttribute('col')) - 1)
+            existsArr[existsArr.findIndex(element => element.row == cell.getAttribute('row') && element.col == cell.getAttribute('col'))].exists = false
+
+            cell.setAttribute('row', Number(cell.getAttribute('row')) - 1)
+
+            existsArr[existsArr.findIndex(element => element.row == cell.getAttribute('row') && element.col == cell.getAttribute('col'))].exists = true
+
+            delay(500).then(() => {
+
+              cellsArrUp.find(element => element.getAttribute('row') == Number(cell.getAttribute('row'))
+                && element.getAttribute('col') == Number(cell.getAttribute('col'))).querySelector('span').textContent = Number(cell.querySelector('span').textContent) * 2
+
+              cellsArrUp.find(element => element.getAttribute('row') == Number(cell.getAttribute('row'))
+                && element.getAttribute('col') == Number(cell.getAttribute('col'))).classList.remove(`game__cell - ${ Number(cell.querySelector('span').textContent) } `)
+
+              cellsArrUp.find(element => element.getAttribute('row') == Number(cell.getAttribute('row'))
+                && element.getAttribute('col') == Number(cell.getAttribute('col'))).classList.add(`game__cell - ${ Number(cell.querySelector('span').textContent) * 2 } `)
+
+            }).then(() => {
+
+              cell.remove()
+
+            }).then(() => {
+              updateCells()
+            })
+
+          }
         }
-      }
+      })
+    }
+
+    if (side == 'down') {
+      cellsArrDown.forEach(cell => {
+        for (let i = 0; i < 4; i++) {
+          //если не существует ячейки на ряду cell.getAttribute('row') + 1, в колонке cell.getAttribute('col')
+          if (exists(Number(cell.getAttribute('row')) + 1, cell.getAttribute('col')) == false) {
+            existsArr[existsArr.findIndex(element => element.row == cell.getAttribute('row') && element.col == cell.getAttribute('col'))].exists = false
+            cell.setAttribute('row', Number(cell.getAttribute('row')) + 1)
+            existsArr[existsArr.findIndex(element => element.row == cell.getAttribute('row') && element.col == cell.getAttribute('col'))].exists = true
+
+          }
+        }
+      })
+    }
+
+    if (side == 'right') {
+
+      cellsArrRight.forEach(cell => {
+        for (let i = 0; i < 4; i++) {
+          //если не существует ячейки на ряду cell.getAttribute('row'), в колонке cell.getAttribute('col') + 1
+          // console.log(exists(cell.getAttribute('col'), Number(cell.getAttribute('col')) + 1));
+          if (exists(cell.getAttribute('row'), Number(cell.getAttribute('col')) + 1) == false) {
+            existsArr[existsArr.findIndex(element => element.row == cell.getAttribute('row') && element.col == cell.getAttribute('col'))].exists = false
+            cell.setAttribute('col', Number(cell.getAttribute('col')) + 1)
+            existsArr[existsArr.findIndex(element => element.row == cell.getAttribute('row') && element.col == cell.getAttribute('col'))].exists = true
+          }
+        }
+      })
+    }
+
+    if (side == 'left') {
+      cellsArrLeft.forEach(cell => {
+        for (let i = 0; i < 4; i++) {
+          //если не существует ячейки на ряду cell.getAttribute('row'), в колонке cell.getAttribute('col') - 1
+          if (exists(cell.getAttribute('row'), Number(cell.getAttribute('col')) - 1) == false) {
+            existsArr[existsArr.findIndex(element => element.row == cell.getAttribute('row') && element.col == cell.getAttribute('col'))].exists = false
+            cell.setAttribute('col', Number(cell.getAttribute('col')) - 1)
+            existsArr[existsArr.findIndex(element => element.row == cell.getAttribute('row') && element.col == cell.getAttribute('col'))].exists = true
+          }
+        }
+      })
+    }
+  }).then(() => {
+    delay(200).then(() => {
+      // randomInteger({ min: 1, max: 4 }, { min: 1, max: 4 });
+      updateCells()
     })
-  }
+  })
+}
+
 */
