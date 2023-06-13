@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="css\style.css">
+  <link rel="stylesheet" href="css\square-position.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>2048</title>
+</head>
+
+<body>
+
+  <h1>2048</h1>
+
+  <div class="wrapper">
+    <div class="game">
+      <div class="retry" onclick="reloadPage()">Retry</div>
+
+      <div class="score">Score: <span>0</span></div>
+      <div class="game__body">
+        <div class="game__shadows">
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+        </div>
+
+        <div class="game__squares">
+          <div class="lose">
+            <div class="lose-close" onclick="closeLose()">x</div>
+            <div class="lose-title">YOU LOSE</div>
+            <div class="lose-score">score: <span>0</span></div>
+
+            <div class="lose-buttons">
+              <div class="lose-retry" onclick="reloadPage()">Retry</div>
+            </div>
+          </div>
+
+          <div class="winner">
+            <div class="winner-close" onclick="closeWinner()">x</div>
+            <div class="winner-title">YOU WIN!</div>
+            <div class="winner-score">score: <span>0</span></div>
+
+            <div class="winner-buttons">
+              <div class="winner-retry" onclick="reloadPage()">Retry</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="signature">made by Darkochu :)</div>
+  </div>
+  <script src="js/spawn.js"></script>
+  <script src="js/move.js"></script>
+  <script src="js/script.js"></script>
+
+
+</body>
+
+</html>

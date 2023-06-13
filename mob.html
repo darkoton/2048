@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    /*---------------------------------------------------------------------------*/
+    /*---------------------------------------------------------------------------*/
+    /*---------------------------------------------------------------------------*/
+
+    * {
+      padding: 0;
+      margin: 0;
+      border: 0;
+    }
+
+
+    *,
+    *:before,
+    *:after {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+
+    :focus,
+    :active {
+      outline: none;
+    }
+
+    a:focus,
+    a:active {
+      outline: none;
+    }
+
+
+    nav,
+    footer,
+    header,
+    aside {
+      display: block;
+    }
+
+
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      font-size: 100%;
+      line-height: 1;
+      font-size: 14px;
+      -ms-text-size-adjust: 100%;
+      -moz-text-size-adjust: 100%;
+      -webkit-text-size-adjust: 100%;
+      overscroll-behavior-y: none;
+    }
+
+
+    input,
+    button,
+    textarea {
+      font-family: inherit;
+    }
+
+
+    input::-ms-clear {
+      display: none;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    button::-moz-focus-inner {
+      padding: 0;
+      border: 0;
+    }
+
+    a,
+    a:visited {
+      text-decoration: none;
+
+    }
+
+    a {
+      color: #000;
+    }
+
+    a:hover {
+      text-decoration: none;
+
+    }
+
+    ul li {
+      list-style: none;
+    }
+
+    img {
+      vertical-align: top;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-size: inherit;
+      font-weight: 400;
+    }
+
+    /*---------------------------------------------------------------------------*/
+    /*---------------------------------------------------------------------------*/
+    /*---------------------------------------------------------------------------*/
+    body {
+      background: rgb(93, 19, 197);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Press Start 2P', cursive;
+    }
+
+    h1 {
+      margin-top: 20px;
+      font-size: 40px;
+      color: rgb(0, 255, 242)
+    }
+
+    .wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+    }
+
+    .game__body {
+      border: solid 10px rgb(160, 132, 207);
+      background: rgb(160, 132, 207);
+      position: relative;
+      border-radius: 5px;
+    }
+
+    .game__shadows {
+      display: grid;
+      grid-template-columns: repeat(4, 100px);
+      grid-template-rows: repeat(4, 100px);
+      grid-gap: 10px;
+    }
+
+    .shadow {
+      background: rgb(116, 46, 207);
+      height: 100%;
+      width: 100%;
+    }
+
+    .square {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 50px;
+      transition: all 0.1s ease-in-out 0s;
+    }
+
+    .square.animation {
+      animation: 0.1s ease 0s alternate scale;
+    }
+
+    .square[data-value="2"] {
+      background: #65adff;
+      z-index: 2;
+    }
+
+    .square[data-value="4"] {
+      background: #3964ff;
+      z-index: 4;
+    }
+
+    .square[data-value="8"] {
+      background: #8a51f4;
+      z-index: 8;
+    }
+
+    .square[data-value="16"] {
+      background: #d151f4;
+      z-index: 16;
+    }
+
+    .square[data-value="32"] {
+      background: #00fbff;
+      z-index: 32;
+    }
+
+    .square[data-value="64"] {
+      background: #ff60ec;
+      z-index: 64;
+    }
+
+    .square[data-value="128"] {
+      background: #f451a0;
+      z-index: 128;
+      font-size: 30px;
+    }
+
+    .square[data-value="256"] {
+      background: #24ff8e;
+      z-index: 256;
+      font-size: 30px;
+
+    }
+
+    .square[data-value="512"] {
+      background: #84ff9c;
+      z-index: 512;
+      font-size: 30px;
+
+    }
+
+    .square[data-value="1024"] {
+      background: #fff245;
+      z-index: 1024;
+      font-size: 10px;
+    }
+
+    .square[data-value="2048"] {
+      background: #f45151;
+      z-index: 2048;
+      font-size: 10px;
+    }
+
+    .square[data-value="4096"] {
+      background: rgb(255, 0, 0);
+      background: linear-gradient(90deg, rgba(255, 0, 0, 1) 0%, rgba(255, 0, 245, 1) 9%, rgba(123, 0, 255, 1) 16%, rgba(23, 39, 255, 1) 22%, rgba(21, 159, 255, 1) 29%, rgba(19, 255, 248, 1) 36%, rgba(17, 251, 138, 1) 43%, rgba(48, 248, 16, 1) 49%, rgba(175, 244, 43, 1) 55%, rgba(208, 240, 71, 1) 62%, rgba(231, 236, 100, 1) 68%, rgba(255, 184, 0, 1) 75%, rgba(255, 188, 0, 1) 81%, rgba(255, 115, 0, 1) 87%, rgba(255, 46, 0, 1) 93%, rgba(255, 0, 0, 1) 100%);
+      z-index: 4096;
+      font-size: 10px;
+    }
+
+    @keyframes scale {
+      0% {
+        transform: scale(1)
+      }
+
+      100% {
+        transform: scale(1.15);
+      }
+    }
+
+    .score {
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width:470px) {
+      .game__body {
+        transform: scale(0.7);
+      }
+    }
+
+    .lose,
+    .winner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+      background: rgba(122, 0, 204, 0.9);
+      padding: 50px 75px;
+      transition: all 0.5s ease-in-out 0s;
+      opacity: 0;
+      z-index: -1;
+    }
+
+    .winner {}
+
+    .lose.active,
+    .winner.active {
+      z-index: 10000;
+      opacity: 1;
+    }
+
+    .lose-title,
+    .winner-title {
+      text-align: center;
+      font-size: 30px;
+      margin-bottom: 50px;
+    }
+
+    .lose-close,
+    .winner-close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      transform: translate(0, -50%);
+      font-size: 40px;
+      cursor: pointer;
+    }
+
+    .lose-score,
+    .winner-score {
+      margin-bottom: 50px;
+      font-size: 20px;
+    }
+
+    .lose-buttons,
+    .winner-buttons {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .lose-retry,
+    .retry,
+    .winner-retry {
+      padding: 20px;
+      position: relative;
+
+      cursor: pointer;
+      background: #de8006;
+      border: 0px;
+      position: relative;
+      box-shadow:
+        inset -4px 2px 1px 1px grey,
+        inset -4px -2px 1px 1px lightgray,
+        inset 4px 0px 1px 1px lightgray;
+    }
+
+    .lose-retry::after,
+    .retry::after,
+    .winner-retry::after {
+      content: '';
+      background: black;
+      position: absolute;
+      left: -2.5%;
+      top: 0;
+      width: 105%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .lose-retry::before,
+    .retry::before,
+    .winner-retry::before {
+      content: '';
+      background: black;
+      position: absolute;
+      left: 0;
+      top: -5%;
+      width: 100%;
+      height: 113%;
+      z-index: -1;
+    }
+
+    .retry {
+      display: inline-flex;
+      margin-bottom: 20px;
+      padding: 10px 20px;
+      background: #065cde;
+    }
+
+    .signature {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      font-size: 10px;
+    }
+
+    @media (max-width:470px) {
+      .game {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    .square {
+      width: 100px;
+      height: 100px;
+      position: absolute;
+    }
+
+    .square[data-row="1"] {
+      top: 0;
+    }
+
+    .square[data-row="2"] {
+      top: 110px;
+    }
+
+    .square[data-row="3"] {
+      top: 220px;
+    }
+
+    .square[data-row="4"] {
+      top: 330px;
+    }
+
+    .square[data-col="1"] {
+      left: 0;
+    }
+
+    .square[data-col="2"] {
+      left: 110px;
+    }
+
+    .square[data-col="3"] {
+      left: 220px;
+    }
+
+    .square[data-col="4"] {
+      left: 330px;
+    }
+
+    @media (max-width:470px) {
+      .game {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+  <title>2048</title>
+</head>
+
+<body>
+
+  <h1>2048</h1>
+
+  <div class="wrapper">
+    <div class="game">
+      <div class="retry" onclick="reloadPage()">Retry</div>
+
+      <div class="score">Score: <span>0</span></div>
+      <div class="game__body">
+        <div class="game__shadows">
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+          <div class="shadow"></div>
+        </div>
+
+        <div class="game__squares">
+          <div class="lose">
+            <div class="lose-close" onclick="closeLose()">x</div>
+            <div class="lose-title">YOU LOSE</div>
+            <div class="lose-score">score: <span>0</span></div>
+
+            <div class="lose-buttons">
+              <div class="lose-retry" onclick="reloadPage()">Retry</div>
+            </div>
+          </div>
+
+          <div class="winner">
+            <div class="winner-close" onclick="closeWinner()">x</div>
+            <div class="winner-title">YOU WIN!</div>
+            <div class="winner-score">score: <span>0</span></div>
+
+            <div class="winner-buttons">
+              <div class="winner-retry" onclick="reloadPage()">Retry</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="signature">made by Darkochu :)</div>
+  </div>
+
+  <script>
+    let gameBody = document.querySelector('.game__squares')
+
+    let squaresLea = [
+      {
+        row: 1,
+        col: 1,
+        free: true,
+      },
+      {
+        row: 1,
+        col: 2,
+        free: true,
+      },
+      {
+        row: 1,
+        col: 3,
+        free: true,
+      },
+      {
+        row: 1,
+        col: 4,
+        free: true,
+      },
+      {
+        row: 2,
+        col: 1,
+        free: true,
+      },
+      {
+        row: 2,
+        col: 2,
+        free: true,
+      },
+      {
+        row: 2,
+        col: 3,
+        free: true,
+      },
+      {
+        row: 2,
+        col: 4,
+        free: true,
+      },
+      {
+        row: 3,
+        col: 1,
+        free: true,
+      },
+      {
+        row: 3,
+        col: 2,
+        free: true,
+      },
+      {
+        row: 3,
+        col: 3,
+        free: true,
+      },
+      {
+        row: 3,
+        col: 4,
+        free: true,
+      },
+      {
+        row: 4,
+        col: 1,
+        free: true,
+      },
+      {
+        row: 4,
+        col: 2,
+        free: true,
+      },
+      {
+        row: 4,
+        col: 3,
+        free: true,
+      },
+      {
+        row: 4,
+        col: 4,
+        free: true,
+      },
+    ]
+
+    function updateLea() {
+      squaresLea.forEach(element => {
+        !document.querySelector(`[data-row="${element.row}"][data-col="${element.col}"]`) ? element.free = true :
+          element.free = false
+      })
+    }
+
+    function spawn() {
+      // случайное число от min до (max+1)
+      let freeSquares = squaresLea.filter(element => element.free == true)
+      let rand = Math.floor(Math.random() * freeSquares.length)
+      let value = (Math.random() * 100).toFixed(0) <= 80 ? 2 : 4
+
+      if (freeSquares[rand] == undefined) { console.log('места нету'); return };
+
+      let { row, col } = freeSquares[rand]
+
+      let element = document.createElement('div')
+      element.dataset.row = row
+      element.dataset.value = value
+      element.dataset.col = col
+      element.classList.add('square')
+      element.textContent = value
+      gameBody.appendChild(element)
+
+      squaresLea[squaresLea.indexOf(freeSquares[rand])].free = false
+
+      let squares = Array.from(document.querySelectorAll(".square:not(.deleted)"))
+
+      if (squares.length >= 16) {
+        console.log('test');
+        setTimeout(lose(squares), 1000)
+      }
+    }
+
+
+    spawn();
+    spawn();
+
+
+    let deleteElements = []
+    let shift = 0
+    let score = document.querySelector('.score')
+    let scoreValue = 0
+
+    function scoreUpdate(num) {
+      scoreValue += num
+
+      score.querySelector('span').textContent = scoreValue
+    }
+    var startX;
+    var startY;
+    var distX;
+    var distY;
+    var threshold = 100; // минимальное расстояние свайпа для определения направления
+
+    // Обработчик начала касания
+    function handleTouchStart(event) {
+      deleteElements.forEach(element => {
+        element.remove()
+      })
+      Array.from(document.querySelectorAll(".square")).forEach(element => {
+        element.classList.remove('new')
+      })
+      deleteElements = []
+
+      startX = event.touches[0].clientX;
+      startY = event.touches[0].clientY;
+    }
+
+    // Обработчик окончания касания
+    function handleTouchEnd(event) {
+      distX = event.changedTouches[0].clientX - startX;
+      distY = event.changedTouches[0].clientY - startY;
+
+      // Определение направления свайпа по горизонтали
+      if (Math.abs(distX) > threshold && Math.abs(distX) > Math.abs(distY)) {
+        if (distX > 0) {
+          console.log("Свайп вправо");
+          move('right')
+        } else {
+          console.log("Свайп влево");
+          move('left')
+        }
+      }
+
+      // Определение направления свайпа по вертикали
+      if (Math.abs(distY) > threshold && Math.abs(distY) > Math.abs(distX)) {
+        if (distY > 0) {
+          console.log("Свайп вниз");
+          move('bottom')
+
+        } else {
+          console.log("Свайп вверх");
+          move('top')
+
+        }
+      }
+
+      if (shift > 0) {
+        updateLea()
+        setTimeout(() => {
+          spawn()
+        }, 100)
+        shift = 0
+      }
+    }
+
+    // Добавление обработчиков событий
+    var element = document.body; // замените "yourElement" на соответствующий идентификатор вашего элемента
+    element.addEventListener("touchstart", handleTouchStart, false);
+    element.addEventListener("touchend", handleTouchEnd, false);
+
+
+
+
+
+
+    document.addEventListener("keyup", function (event) {
+      deleteElements.forEach(element => {
+        element.remove()
+      })
+      Array.from(document.querySelectorAll(".square")).forEach(element => {
+        element.classList.remove('new')
+      })
+      deleteElements = []
+
+      if (event.code === 'ArrowUp') {
+        move('top')
+      }
+      if (event.code === 'ArrowDown') {
+        move('bottom')
+      }
+      if (event.code === 'ArrowRight') {
+        move('right')
+      }
+      if (event.code === 'ArrowLeft') {
+        move('left')
+      }
+
+      if ((event.code === 'ArrowUp' || event.code === 'ArrowDown' || event.code === 'ArrowRight' || event.code === 'ArrowLeft') && shift > 0) {
+        updateLea()
+        setTimeout(() => {
+          spawn()
+        }, 100)
+        shift = 0
+      }
+    });
+
+    function sortByAxis(array, axis, value = true) {
+
+      if (axis == 'row') {
+        if (value) {
+          return array.toSorted((a, b) => a.dataset.row - b.dataset.row)
+        } else {
+          return array.toSorted((a, b) => b.dataset.row - a.dataset.row)
+        }
+      }
+      if (axis == 'col') {
+        if (value) {
+          return array.toSorted((a, b) => a.dataset.col - b.dataset.col)
+        } else {
+          return array.toSorted((a, b) => b.dataset.col - a.dataset.col)
+        }
+      }
+    }
+
+
+    function move(side) {
+      let squares = Array.from(document.querySelectorAll(".square:not(.deleted)"))
+      let merger = 0
+      if (side == 'top') {
+        sortByAxis(squares, 'row').forEach(element => {
+          for (let i = 1; i < 5 && +element.dataset.row > 1 && merger == 0; i++) {
+            let neighbour = document.querySelector(`:not(.deleted)[data-row="${element.dataset.row - 1}"][data-col="${element.dataset.col}"]`)
+            if (!neighbour) {
+              element.dataset.row = +element.dataset.row - 1
+              ++shift
+            } else if (neighbour && !neighbour.classList.contains("new") && neighbour.dataset.value == element.dataset.value) {
+              element.dataset.row = +element.dataset.row - 1
+              neighbour.dataset.value *= 2
+              neighbour.textContent *= 2
+              scoreUpdate(+neighbour.dataset.value)
+
+              neighbour.classList.add('new')
+              neighbour.classList.add('animation')
+              setTimeout(() => {
+                neighbour.classList.remove('animation')
+              }, 200);
+
+              deleteElements.push(element)
+              element.classList.add('deleted')
+              ++shift
+              ++merger
+            }
+          }
+          merger = 0
+        });
+      }
+      if (side == 'bottom') {
+        sortByAxis(squares, 'row', false).forEach(element => {
+
+          for (let i = 1; i < 5 && +element.dataset.row < 4 && merger == 0; i++) {
+            let neighbour = document.querySelector(`:not(.deleted)[data-row="${+element.dataset.row + 1}"][data-col="${element.dataset.col}"]`)
+            if (!neighbour) {
+              element.dataset.row = +element.dataset.row + 1
+              ++shift
+            } else if (neighbour && !neighbour.classList.contains("new") && neighbour.dataset.value == element.dataset.value) {
+              element.dataset.row = +element.dataset.row + 1
+              neighbour.dataset.value *= 2
+              neighbour.textContent *= 2
+              scoreUpdate(+neighbour.dataset.value)
+
+              neighbour.classList.add('new')
+              neighbour.classList.add('animation')
+              setTimeout(() => {
+                neighbour.classList.remove('animation')
+              }, 200);
+              deleteElements.push(element)
+              element.classList.add('deleted')
+              ++shift
+              ++merger
+            }
+          }
+          merger = 0
+        });
+      }
+      if (side == 'left') {
+        sortByAxis(squares, 'col').forEach(element => {
+          for (let i = 1; i < 5 && +element.dataset.col > 1 && merger == 0; i++) {
+            let neighbour = document.querySelector(`:not(.deleted)[data-row="${element.dataset.row}"][data-col="${element.dataset.col - 1}"]`);
+            if (!neighbour) {
+              element.dataset.col = +element.dataset.col - 1
+              ++shift
+            } else if (neighbour && !neighbour.classList.contains("new") && neighbour.dataset.value == element.dataset.value) {
+              element.dataset.col = +element.dataset.col - 1
+              neighbour.dataset.value *= 2
+              neighbour.textContent *= 2
+              scoreUpdate(+neighbour.dataset.value)
+
+              neighbour.classList.add('new')
+              neighbour.classList.add('animation')
+              setTimeout(() => {
+                neighbour.classList.remove('animation')
+              }, 200);
+              deleteElements.push(element)
+              element.classList.add('deleted')
+              ++shift
+              ++merger
+            }
+          }
+          merger = 0
+        });
+      }
+      if (side == 'right') {
+        sortByAxis(squares, 'col', false).forEach(element => {
+          for (let i = 1; i < 5 && +element.dataset.col < 4 && merger == 0; i++) {
+            let neighbour = document.querySelector(`:not(.deleted)[data-row="${element.dataset.row}"][data-col="${+element.dataset.col + 1}"]`);
+            if (!neighbour) {
+              element.dataset.col = +element.dataset.col + 1
+              ++shift
+            } else if (neighbour && !neighbour.classList.contains("new") && neighbour.dataset.value == element.dataset.value) {
+              element.dataset.col = +element.dataset.col + 1
+              neighbour.dataset.value *= 2
+              neighbour.textContent *= 2
+              scoreUpdate(+neighbour.dataset.value)
+
+              neighbour.classList.add('new')
+              neighbour.classList.add('animation')
+              setTimeout(() => {
+                neighbour.classList.remove('animation')
+              }, 200);
+              deleteElements.push(element)
+              element.classList.add('deleted')
+              ++shift
+              ++merger
+            }
+          }
+          merger = 0
+        });
+      }
+
+      if (document.querySelector('[data-value="2048"]')) {
+        winnerBody.classList.add('active')
+      }
+
+
+    }
+
+    let loseBody = document.querySelector('.lose')
+    let winnerBody = document.querySelector('.winner')
+
+    function lose(squares) {
+
+      let elementMove = []
+
+      sortByAxis(squares, 'row').forEach(element => {
+        let neighbour = document.querySelector(`:not(.deleted)[data-row="${element.dataset.row - 1}"][data-col="${element.dataset.col}"]`)
+        if (neighbour && neighbour.dataset.value == element.dataset.value && !element.classList.contains('deleted')) {
+          elementMove.push(element)
+        }
+      });
+
+      sortByAxis(squares, 'row', false).forEach(element => {
+        let neighbour = document.querySelector(`:not(.deleted)[data-row="${+element.dataset.row + 1}"][data-col="${element.dataset.col}"]`)
+        if (neighbour && neighbour.dataset.value == element.dataset.value && !element.classList.contains('deleted')) {
+          elementMove.push(element)
+        }
+      });
+
+      sortByAxis(squares, 'col').forEach(element => {
+        let neighbour = document.querySelector(`:not(.deleted)[data-row="${element.dataset.row}"][data-col="${element.dataset.col - 1}"]`)
+        if (neighbour && neighbour.dataset.value == element.dataset.value && !element.classList.contains('deleted')) {
+          elementMove.push(element)
+        }
+      });
+
+      sortByAxis(squares, 'col', false).forEach(element => {
+        let neighbour = document.querySelector(`:not(.deleted)[data-row="${element.dataset.row}"][data-col="${+element.dataset.col + 1}"]`)
+        if (neighbour && neighbour.dataset.value == element.dataset.value && !element.classList.contains('deleted')) {
+          elementMove.push(element)
+        }
+      });
+      console.log(elementMove);
+      if (elementMove.length > 0) {
+        return
+      }
+
+      loseBody.querySelector('.lose-score span').textContent = scoreValue
+      loseBody.classList.add('active')
+
+    }
+
+
+    function closeLose() {
+      loseBody.classList.remove('active')
+    }
+    function closeWinner() {
+      winnerBody.classList.remove('active')
+    }
+    function reloadPage() {
+      location.reload()
+    }
+
+
+  </script>
+
+
+</body>
+
+</html>

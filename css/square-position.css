@@ -1,0 +1,36 @@
+.square{
+    width: 100px;
+    height: 100px;
+    position: absolute;
+}
+
+.square[data-row="1"]{
+    top: 0;
+}
+.square[data-row="2"]{
+    top: 110px;
+}
+.square[data-row="3"]{
+    top: 220px;
+}
+.square[data-row="4"]{
+    top: 330px;
+}
+
+.square[data-col="1"]{
+    left: 0;
+}
+.square[data-col="2"]{
+    left: 110px;
+}
+.square[data-col="3"]{
+    left: 220px;
+}
+.square[data-col="4"]{
+    left: 330px;
+}
+
+
+
+
+
